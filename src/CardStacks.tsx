@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Image, Group, Button, Text } from '@mantine/core';
+import { Card, Image, Group, Button } from '@mantine/core';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const questions: string[] = [
