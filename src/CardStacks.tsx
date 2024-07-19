@@ -38,7 +38,7 @@ const quotes: string[] = [
     "You only live once, but if you do it right, once is enough."
 ];
 
-const CardStack: React.FC = () => {
+const CardStack = (props: { onNext: () => void }) => {
     const [currentCard, setCurrentCard] = useState<number>(0);
     const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
     const [answers, setAnswers] = useState<(number | null)[]>(Array(questions.length).fill(null));
@@ -159,6 +159,9 @@ const CardStack: React.FC = () => {
                     </div>
                 )}
             </AnimatePresence>
+            <button onClick={props.onNext} style={{ position: 'absolute', bottom: 0, right: 0 }}>
+                Next
+            </button>
         </div>
     );
 };
