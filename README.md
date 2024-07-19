@@ -1,30 +1,43 @@
-# React + TypeScript + Vite
+# Vercel AI SDK, Next.js, and OpenAI Chat Example
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This example shows how to use the [Vercel AI SDK](https://sdk.vercel.ai/docs) with [Next.js](https://nextjs.org/) and [OpenAI](https://openai.com) to create a ChatGPT-like AI-powered streaming chat bot.
 
-Currently, two official plugins are available:
+## Deploy your own
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=ai-sdk-example):
 
-## Expanding the ESLint configuration
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/ai/tree/main/examples/next-openai&env=OPENAI_API_KEY,ASSISTANT_ID&envDescription=Learn more about how to get these environment variables&envLink=https://github.com/vercel/ai/blob/main/examples/next-openai/.env.local.example&project-name=ai-sdk-next-openai&repository-name=ai-sdk-next-openai&stores=[{"type":"blob"}])
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## How to use
 
-- Configure the top-level `parserOptions` property like this:
+Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+npx create-next-app --example https://github.com/vercel/ai/tree/main/examples/next-openai next-openai-app
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+```bash
+yarn create next-app --example https://github.com/vercel/ai/tree/main/examples/next-openai next-openai-app
+```
+
+```bash
+pnpm create next-app --example https://github.com/vercel/ai/tree/main/examples/next-openai next-openai-app
+```
+
+To run the example locally you need to:
+
+1. Sign up at [OpenAI's Developer Platform](https://platform.openai.com/signup).
+2. Go to [OpenAI's dashboard](https://platform.openai.com/account/api-keys) and create an API KEY.
+3. If you choose to use external files for attachments, then create a [Vercel Blob Store](https://vercel.com/docs/storage/vercel-blob).
+4. Set the required environment variable as the token value as shown [the example env file](./.env.local.example) but in a new file called `.env.local`
+5. `pnpm install` to install the required dependencies.
+6. `pnpm dev` to launch the development server.
+
+## Learn More
+
+To learn more about OpenAI, Next.js, and the Vercel AI SDK take a look at the following resources:
+
+- [Vercel AI SDK docs](https://sdk.vercel.ai/docs)
+- [Vercel AI Playground](https://play.vercel.ai)
+- [OpenAI Documentation](https://platform.openai.com/docs) - learn about OpenAI features and API.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
