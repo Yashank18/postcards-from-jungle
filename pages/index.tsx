@@ -9,12 +9,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const { classes } = useStyles();
-  const [answers, setAnswers] = useState<Record<string, 'A' | 'B'>>({
-    "1": 'B',
-    "2": 'B',
-    "3": 'A',
-    "4": 'B',
-    "5": 'A'
+  const [answers, setAnswers] = useState<Record<string, "A" | "B">>({
+    "1": "B",
+    "2": "B",
+    "3": "A",
+    "4": "B",
+    "5": "A",
   });
   const [results, setResults] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
@@ -22,14 +22,16 @@ export default function Home() {
   const getResults = async () => {
     try {
       setLoading(true);
-      const parsedAnswers = Object.entries(answers).map(([question, answer]) => `${question}-${answer}`).join(', ');
+      const parsedAnswers = Object.entries(answers)
+        .map(([question, answer]) => `${question}-${answer}`)
+        .join(", ");
 
-      const response = await fetch('/api/results', {
-        method: 'POST',
+      const response = await fetch("/api/results", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ answers: parsedAnswers })
+        body: JSON.stringify({ answers: parsedAnswers }),
       });
       const data = await response.json();
       setResults(data.content);
@@ -39,7 +41,7 @@ export default function Home() {
       setLoading(false);
     }
   };
-  
+
   return (
     <>
       <Head>
@@ -58,27 +60,17 @@ export default function Home() {
               onChange={(event) => {
                 setAnswers({
                   ...answers,
-                  [question]: event.currentTarget.value as 'A' | 'B'
+                  [question]: event.currentTarget.value as "A" | "B",
                 });
               }}
               placeholder="A or B"
             />
           </div>
         ))}
-        <Button
-          onClick={getResults}
-          size="sm"
-          color="blue"
-          loading={loading}
-        >
+        <Button onClick={getResults} size="sm" color="blue" loading={loading}>
           Submit
         </Button>
-        {results && (
-          <div>
-            <h2>Results</h2>
-            <Postcard data={results}/>
-          </div>
-        )}
+        {results && <Postcard data={results} />}
       </main>
     </>
   );
@@ -86,7 +78,7 @@ export default function Home() {
 
 const useStyles = createStyles((theme) => ({
   root: {
-    margin: 'auto',
-    width: '50%'
-  }
+    margin: "auto",
+    width: "50%",
+  },
 }));

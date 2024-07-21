@@ -12,9 +12,14 @@ const Postcard = (props: Props) => {
   const animalColors = getAnimalColorMap(props.data.animal);
 
   return (
-    <Box style={{ backgroundColor: "#FFFFF0", position: "relative" }}>
-      <div style={{ position: "relative" }}>
-        <Box
+    <Box style={{ backgroundColor: "#FFFFF0", position: "relative", display: 'flex' }}>
+      <div> 
+        <Image
+          src={animalImage}
+          alt={props.data.animal}
+          width={400}
+        />
+        <div
           style={{
             backgroundColor: animalColors?.primary,
             mixBlendMode: "lighten",
@@ -26,20 +31,10 @@ const Postcard = (props: Props) => {
             left: 0,
           }}
         />
-        <Image
-          src={animalImage}
-          alt={props.data.animal}
-          width={400}
-          style={{ position: "absolute", top: 0, left: 0, zIndex: 0 }}
-        />
       </div>
       <div>
-        <h3 style={{ color: animalColors?.primary }}>{props.data.animal}</h3>
-        <ul style={{ color: animalColors?.primary }}>
-          {props.data.traits.map((trait, index) => (
-            <li key={index}>{trait}</li>
-          ))}
-        </ul>
+        <h1 style={{ color: animalColors?.primary }}>{props.data.animal}</h1>
+        {props.data.traits.length > 0 && <p style={{ color: animalColors?.primary }}>{props.data.traits.join(", ")}</p>}
         <p style={{ color: animalColors?.primary }}>{props.data.summary}</p>
         <p style={{ color: animalColors?.primary }}>{props.data.quote}</p>
       </div>
