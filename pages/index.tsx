@@ -1,13 +1,40 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
 import { useState } from "react";
+import { Button, clsx, createStyles, TextInput } from "@mantine/core";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [answers, setAnswers] = useState<string[]>([]);
+  const { classes } = useStyles();
+  const [answers, setAnswers] = useState<Record<string, 'A' | 'B'>>({
+    "1": 'A',
+    "2": 'B',
+    "3": 'B',
+    "4": 'A',
+    "5": 'A'
+  });
+  const [results, setResults] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+
+  const getResults = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/results', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ answers })
+      });
+      const data = await response.json();
+      setResults(data.content);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   
   return (
     <>
@@ -17,33 +44,29 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
+      <main className={clsx(`${classes.root}`, `${inter.className}`)}>
+        <Button
+          onClick={getResults}
+          size="sm"
+          color="blue"
+          loading={loading}
+        >
+          Submit
+        </Button>
+        {results && (
           <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{" "}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+            <h2>Results</h2>
+            <p>{JSON.stringify(results, null, 2)}</p>
           </div>
-        </div>
-
-
+        )}
       </main>
     </>
   );
 }
+
+const useStyles = createStyles((theme) => ({
+  root: {
+    margin: 'auto',
+    width: '50%'
+  }
+}));
