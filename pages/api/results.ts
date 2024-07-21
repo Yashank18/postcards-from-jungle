@@ -14,12 +14,17 @@ export default async function handler(
   res: NextApiResponse<any>,
 ) {
   try {
-    // const body = "1-A, 2-B, 3-B, 4-A, 5-B";
+    if (req.method !== "POST") {
+      throw new Error("Invalid method");
+    }
+    
     const answers = req.body.answers;
     const prompt = process.env.PROMPT || '';
     if (!prompt) {
       throw new Error("Prompt not found");
     }
+
+    console.log("Answers: ", answers);
     
     const promptWithAnswers = prompt.replace("{{answers}}", answers);
 

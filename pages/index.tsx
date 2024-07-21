@@ -2,30 +2,34 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import { useState } from "react";
 import { Button, clsx, createStyles, TextInput } from "@mantine/core";
+import { Result } from "@/components/types";
+import Postcard from "@/components/postcard";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const { classes } = useStyles();
   const [answers, setAnswers] = useState<Record<string, 'A' | 'B'>>({
-    "1": 'A',
+    "1": 'B',
     "2": 'B',
-    "3": 'B',
-    "4": 'A',
+    "3": 'A',
+    "4": 'B',
     "5": 'A'
   });
-  const [results, setResults] = useState<any>(null);
+  const [results, setResults] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
 
   const getResults = async () => {
     try {
       setLoading(true);
+      const parsedAnswers = Object.entries(answers).map(([question, answer]) => `${question}-${answer}`).join(', ');
+
       const response = await fetch('/api/results', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ answers })
+        body: JSON.stringify({ answers: parsedAnswers })
       });
       const data = await response.json();
       setResults(data.content);
@@ -45,6 +49,22 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={clsx(`${classes.root}`, `${inter.className}`)}>
+        {Object.keys(answers).map((question, index) => (
+          <div key={index}>
+            <h3>Question {question}</h3>
+            <TextInput
+              id={question}
+              value={answers[question]}
+              onChange={(event) => {
+                setAnswers({
+                  ...answers,
+                  [question]: event.currentTarget.value as 'A' | 'B'
+                });
+              }}
+              placeholder="A or B"
+            />
+          </div>
+        ))}
         <Button
           onClick={getResults}
           size="sm"
@@ -56,7 +76,7 @@ export default function Home() {
         {results && (
           <div>
             <h2>Results</h2>
-            <p>{JSON.stringify(results, null, 2)}</p>
+            <Postcard data={results}/>
           </div>
         )}
       </main>
