@@ -1,29 +1,25 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
-import { useState } from "react";
-import { Button, clsx, createStyles, TextInput } from "@mantine/core";
+import { useState, useRef } from "react";
+import { Button, clsx, createStyles } from "@mantine/core";
 import { Result } from "@/components/types";
 import Postcard from "@/components/postcard";
+import CardStack from "@/components/CardStack";
+import html2canvas from "html2canvas";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const { classes } = useStyles();
-  const [answers, setAnswers] = useState<Record<string, "A" | "B">>({
-    "1": "B",
-    "2": "B",
-    "3": "A",
-    "4": "B",
-    "5": "A",
-  });
   const [results, setResults] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
+  const postcardRef = useRef(null);
 
-  const getResults = async () => {
+  const getResults = async (answers: (number | null)[]) => {
     try {
       setLoading(true);
-      const parsedAnswers = Object.entries(answers)
-        .map(([question, answer]) => `${question}-${answer}`)
+      const parsedAnswers = answers
+        .map((answer, index) => `${index + 1}-${answer === 0 ? 'A' : 'B'}`)
         .join(", ");
 
       const response = await fetch("/api/results", {
@@ -42,6 +38,16 @@ export default function Home() {
     }
   };
 
+  const downloadImage = async () => {
+    if (postcardRef.current) {
+      const canvas = await html2canvas(postcardRef.current);
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = "postcard.png";
+      link.click();
+    }
+  };
+
   return (
     <>
       <Head>
@@ -51,26 +57,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={clsx(`${classes.root}`, `${inter.className}`)}>
-        {Object.keys(answers).map((question, index) => (
-          <div key={index}>
-            <h3>Question {question}</h3>
-            <TextInput
-              id={question}
-              value={answers[question]}
-              onChange={(event) => {
-                setAnswers({
-                  ...answers,
-                  [question]: event.currentTarget.value as "A" | "B",
-                });
-              }}
-              placeholder="A or B"
-            />
+        {!results ? <CardStack onFinish={getResults} /> : null}
+        {results && (
+          <div>
+            <div ref={postcardRef}>
+              <Postcard data={results} />
+            </div>
+            <Button onClick={downloadImage}>Download Image</Button>
           </div>
-        ))}
-        <Button onClick={getResults} size="sm" color="blue" loading={loading}>
-          Submit
-        </Button>
-        {results && <Postcard data={results} />}
+        )}
       </main>
     </>
   );
@@ -80,5 +75,10 @@ const useStyles = createStyles((theme) => ({
   root: {
     margin: "auto",
     width: "50%",
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
 }));
