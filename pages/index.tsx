@@ -1,11 +1,13 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button, clsx, createStyles } from "@mantine/core";
 import { Result } from "@/components/types";
 import Postcard from "@/components/postcard";
 import CardStack from "@/components/CardStack";
 import html2canvas from "html2canvas";
+import LandingPage from "@/components/Landing";
+import S3ObjectFetcher from "@/components/S3ObjectFetcher";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,6 +16,35 @@ export default function Home() {
   const [results, setResults] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
   const postcardRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState("landing");
+
+  useEffect(() => {
+    if (results)
+      setCurrentPage("results");
+
+  }, [results]);
+
+  const handleResult = (answers: (number | null)[]) => {
+    getResults(answers);
+  };
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case "landing":
+        return <LandingPage onNext={() => setCurrentPage("twitter")} />;
+      case "twitter":
+        return <S3ObjectFetcher onNext={() => setCurrentPage("questions")} />;
+      case "questions":
+        return <CardStack onFinish={handleResult} />;
+      case "results":
+        return <div>
+          <div ref={postcardRef}>
+            <Postcard data={results!} />
+          </div>
+          <Button onClick={downloadImage}>Download Image</Button>
+        </div>
+    }
+  };
 
   const getResults = async (answers: (number | null)[]) => {
     try {
@@ -57,15 +88,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={clsx(`${classes.root}`, `${inter.className}`)}>
-        {!results ? <CardStack onFinish={getResults} /> : null}
-        {results && (
-          <div>
-            <div ref={postcardRef}>
-              <Postcard data={results} />
-            </div>
-            <Button onClick={downloadImage}>Download Image</Button>
-          </div>
-        )}
+        {renderPage()}
+
       </main>
     </>
   );
