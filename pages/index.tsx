@@ -71,7 +71,9 @@ export default function Home() {
 
   const downloadImage = async () => {
     if (postcardRef.current) {
-      const canvas = await html2canvas(postcardRef.current);
+      const canvas = await html2canvas(postcardRef.current, {
+        scale: 2,
+      });
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
       link.download = "postcard.png";

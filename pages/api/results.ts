@@ -23,8 +23,6 @@ export default async function handler(
     if (!prompt) {
       throw new Error("Prompt not found");
     }
-
-    console.log("Answers: ", answers);
     
     const promptWithAnswers = prompt.replace("{{answers}}", answers);
 
