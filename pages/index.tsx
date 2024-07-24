@@ -1,18 +1,17 @@
-import Head from "next/head";
-import { Manrope, Montserrat } from "next/font/google";
-import { useState, useRef, useEffect } from "react";
-import { Button, clsx, createStyles, Image, Stack } from "@mantine/core";
-import { Result } from "@/components/types";
-import Postcard from "@/components/postcard";
 import CardStack from "@/components/CardStack";
-import html2canvas from "html2canvas";
 import LandingPage from "@/components/Landing";
+import Postcard from "@/components/postcard";
+import { Result } from "@/components/types";
 import UserDataFetcher from "@/components/userDataFetcher";
+import { Button, clsx, createStyles, Image, Stack } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
+import html2canvas from "html2canvas";
+import { Manrope } from "next/font/google";
+import Head from "next/head";
+import { useEffect, useRef, useState } from "react";
 
 export const font = Manrope({ subsets: ["latin"], weight: "400" });
 export const fontBold = Manrope({ subsets: ["latin"], weight: "800" });
-export const mont = Montserrat({ subsets: ["latin"], weight: "800" });
 
 export default function Home() {
   const { classes } = useStyles();

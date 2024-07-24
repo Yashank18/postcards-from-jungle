@@ -17,6 +17,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Result } from "./types";
 import { getAnimalColorMap, getAnimalImage } from "./utils";
+import { font, fontBold } from "@/pages";
 
 interface Props {
   data: Result;
@@ -34,7 +35,7 @@ const handwriting = Handwriting({
   weight: "400",
 });
 
-const postfix = 'But hey, this is you; and you are awesome!';
+const postfix = "But hey, this is you; and you are awesome!";
 
 const Postcard = (props: Props) => {
   const animalImage = getAnimalImage(props.data.animal);
@@ -124,7 +125,7 @@ const Postcard = (props: Props) => {
                 maw={200}
               />
               <Box className={classes.root} ref={containerRef}>
-                <Flex gap={8} direction={"column"}>
+                <Flex gap={4} direction={"column"}>
                   <Text
                     className={classes.title}
                     style={{ color: animalColors?.primary }}
@@ -201,7 +202,7 @@ const Postcard = (props: Props) => {
                   className={handwriting.className}
                   style={{ fontSize: 20, color: animalColors?.secondary }}
                 >
-                  {props.data.summary + ' ' + postfix}
+                  {props.data.summary + " " + postfix}
                 </Text>
                 <Flex direction={"row-reverse"} w={"100%"} mt={10}>
                   <Text
@@ -255,6 +256,8 @@ const useStyles = createStyles((theme) => ({
     perspective: "1000px",
     width: 576,
     height: 384,
+    boxShadow:
+      "0px 0.4px 0.3px rgba(0, 0, 0, 0.035),0px 2px 3.1px rgba(0, 0, 0, 0.061),0px 5.3px 9.1px rgba(0, 0, 0, 0.079),0px 11.4px 19.8px rgba(0, 0, 0, 0.092),0px 22.6px 38.9px rgba(0, 0, 0, 0.102),0px 49px 85px rgba(0, 0, 0, 0.14)",
   },
   root: {
     display: "flex",
@@ -265,6 +268,7 @@ const useStyles = createStyles((theme) => ({
     width: 500,
     backfaceVisibility: "hidden",
     transformStyle: "preserve-3d",
+    //Soft shadow
   },
   image: {
     display: "flex",
@@ -273,9 +277,10 @@ const useStyles = createStyles((theme) => ({
   },
   title: {
     fontSize: 60,
-    fontWeight: 800,
+    fontWeight: fontBold.style.fontWeight,
+    fontFamily: fontBold.style.fontFamily,
     letterSpacing: -5,
-    lineHeight: 1.25,
+    lineHeight: 1.2,
   },
 
   lineText: {
