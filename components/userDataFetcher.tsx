@@ -18,6 +18,10 @@ const UserDataFetcher = (props: { onNext: () => void, setUser: (name: string) =>
             handleNextClick();
             props.onNext();
             return;
+        }
+        else if (!jsonData) {
+            props.onNext();
+            return;
         } else {
             props.handleOldUser();
         }
