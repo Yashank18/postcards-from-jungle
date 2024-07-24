@@ -1,6 +1,9 @@
 import { MantineProvider } from "@mantine/core";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { Manrope } from "next/font/google";
+
+const font = Manrope({ subsets: ["latin"], weight: "400" });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -16,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
         withGlobalStyles
         withNormalizeCSS
         theme={{
-          fontFamily: 'Manrope', 
+          fontFamily: font.style.fontFamily, 
           /** Put your mantine theme override here */
           colorScheme: "light",
           primaryColor: 'orange'

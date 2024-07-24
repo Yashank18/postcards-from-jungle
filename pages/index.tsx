@@ -62,9 +62,14 @@ export default function Home() {
         return (
           <Stack align="center" spacing={16}>
             <div ref={postcardRef}>
-              <Postcard data={results!} userName={userName}/>
+              <Postcard data={results!} userName={userName} />
             </div>
-            <Button onClick={downloadImage} rightIcon={<IconDownload size={14}/>}>Download postcard</Button>
+            <Button
+              onClick={downloadImage}
+              rightIcon={<IconDownload size={14} />}
+            >
+              Download postcard
+            </Button>
           </Stack>
         );
     }
@@ -124,14 +129,34 @@ export default function Home() {
         className={clsx(
           `${classes.root}`,
           `${font.className}`,
-          `${fontBold.className}`,
+          `${fontBold.className}`
         )}
       >
         <div className={classes.background} draggable={false} />
-        <Image className={classes.leftbottom} src={'/front.png'} alt={'leaf'} draggable={false}/>
-        <Image className={classes.leftbottom1} src={'/back.png'} alt={'leaf'} draggable={false}/>
-        <Image className={classes.topright} src={'/front.png'} alt={'leaf'} draggable={false}/>
-        <Image className={classes.topright1} src={'/back.png'} alt={'leaf'} draggable={false}/>
+        <Image
+          className={classes.frontBottomLeftTopLeft}
+          src={"/Artboard.png"}
+          alt={"leaf"}
+          draggable={false}
+        />
+        <Image
+          className={classes.frontBottomRightBottomLeft}
+          src={"/Artboard.png"}
+          alt={"leaf"}
+          draggable={false}
+        />
+        <Image
+          className={classes.frontTopLeftTopRight}
+          src={"/Artboard.png"}
+          alt={"leaf"}
+          draggable={false}
+        />
+        <Image
+          className={classes.frontTopRightBottomRight}
+          src={"/Artboard.png"}
+          alt={"leaf"}
+          draggable={false}
+        />
         {renderPage()}
       </main>
     </>
@@ -164,69 +189,76 @@ const useStyles = createStyles((theme) => ({
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
   },
-  leftbottom: {
-    height: "100px",
-    bottom: 40,
-    position: "absolute",
-    [theme.fn.largerThan("md")]: {
-      bottom: 0,
-      left: -700,
-      height: '100vh',
-      transform: 'rotate(90deg)'
-    },
+  frontBottomLeftTopLeft: {
     zIndex: 1,
-    [theme.fn.largerThan("lg")]: {
-      left: -1000,
-    }
-  },
-  leftbottom1: {
-    height: "100px",
-    bottom: 100,
+    height: 10,
     position: "absolute",
-    transform: 'rotate(0deg)',
-    opacity: 0.8,
-    filter: "blur(0.5px) brightness(0.8)",
+    bottom: 150,
+    left: -200,
     [theme.fn.largerThan("md")]: {
-      bottom: 0,
-      left: -600,
-      height: '100vh',
-      transform: 'rotate(90deg)'
+      top: "20%",
+      bottom: "initial",
+      left: -100,
+      width: "40% !important",
+      transform: "rotate(90deg)",
     },
     [theme.fn.largerThan("lg")]: {
-      left: -900,
-    }
-  },
-  topright: {
-    height: "100px",
-    top: 40,
-    position: "absolute",
-    transform: 'rotate(180deg)',
-    [theme.fn.largerThan("md")]: {
-      top: 0,
-      right: -700,
-      height: '100vh',
-      transform: 'rotate(270deg)'
+      left: -100,
     },
+  },
+  frontBottomRightBottomLeft: {
     zIndex: 1,
-    [theme.fn.largerThan("lg")]: {
-      right: -1000,
-    }
-  },
-  topright1: {
-    height: "100px",
-    top: 100,
+    height: 10,
     position: "absolute",
-    transform: 'rotate(180deg)',
-    opacity: 0.8,
-    filter: "blur(0.5px) brightness(0.8)",
+    bottom: 150,
+    right: -200,
     [theme.fn.largerThan("md")]: {
-      top: 0,
-      right: -600,
-      height: '100vh',
-      transform: 'rotate(270deg)'
+      top: "80%",
+      bottom: "initial",
+      left: -100,
+      width: "40% !important",
+      transform: "rotate(90deg)",
     },
     [theme.fn.largerThan("lg")]: {
-      right: -900,
-    }
-  }
+      right: -100,
+    },
+  },
+  frontTopLeftTopRight: {
+    zIndex: 1,
+    height: 10,
+    position: "absolute",
+    top: 150,
+    left: -200,
+    transform: "rotate(180deg)",
+    [theme.fn.largerThan("md")]: {
+      top: "20%",
+      right: -100,
+      bottom: "initial",
+      left: "initial",
+      width: "40% !important",
+      transform: "rotate(270deg)",
+    },
+    [theme.fn.largerThan("lg")]: {
+      right: -100,
+    },
+  },
+  frontTopRightBottomRight: {
+    zIndex: 1,
+    height: 10,
+    position: "absolute",
+    top: 150,
+    right: -200,
+    transform: "rotate(180deg)",
+    [theme.fn.largerThan("md")]: {
+      top: "80%",
+      right: -100,
+      bottom: "initial",
+      left: "initial",
+      width: "40% !important",
+      transform: "rotate(270deg)",
+    },
+    [theme.fn.largerThan("lg")]: {
+      right: -100,
+    },
+  },
 }));
