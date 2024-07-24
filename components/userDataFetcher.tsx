@@ -14,6 +14,7 @@ const UserDataFetcher = (props: { onNext: () => void, setUser: (name: string) =>
         }
         const data = localStorage.getItem('postcard-from-jungle');
         const jsonData = data ? JSON.parse(data) : null;
+        props.setUser(key);
         if (jsonData && jsonData.user !== key) {
             handleNextClick();
             props.onNext();
@@ -23,6 +24,7 @@ const UserDataFetcher = (props: { onNext: () => void, setUser: (name: string) =>
             props.onNext();
             return;
         } else {
+
             props.handleOldUser();
         }
     };
