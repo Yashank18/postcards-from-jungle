@@ -19,7 +19,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("postcard");
   const postcardRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState("landing");
+  const [currentPage, setCurrentPage] = useState("twitter");
 
   const handleOldUser = () => {
     const data = localStorage.getItem("postcard-from-jungle");
@@ -126,11 +126,11 @@ export default function Home() {
           `${fontBold.className}`,
         )}
       >
-        <div className={classes.background} />
-        <Image className={classes.leftbottom} src={'/front.png'} alt={'leaf'}/>
-        <Image className={classes.leftbottom1} src={'/back.png'} alt={'leaf'}/>
-        <Image className={classes.topright} src={'/front.png'} alt={'leaf'}/>
-        <Image className={classes.topright1} src={'/back.png'} alt={'leaf'}/>
+        <div className={classes.background} draggable={false} />
+        <Image className={classes.leftbottom} src={'/front.png'} alt={'leaf'} draggable={false}/>
+        <Image className={classes.leftbottom1} src={'/back.png'} alt={'leaf'} draggable={false}/>
+        <Image className={classes.topright} src={'/front.png'} alt={'leaf'} draggable={false}/>
+        <Image className={classes.topright1} src={'/back.png'} alt={'leaf'} draggable={false}/>
         {renderPage()}
       </main>
     </>

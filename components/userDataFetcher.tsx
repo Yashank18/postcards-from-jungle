@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Input, Button } from '@mantine/core';
+import { Input, Button, Stack, createStyles } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { IconAt } from '@tabler/icons-react';
 
 
 const UserDataFetcher = (props: { onNext: () => void, setUser: (name: string) => void, handleOldUser: () => void }) => {
     const [key, setKey] = useState<string>('');
     const [objectData, setObjectData] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const { classes } = useStyles();
+    const largerThanMd = useMediaQuery("(min-width: 768px)");
 
     const fetchObject = () => {
         if (!key) {
@@ -35,12 +39,15 @@ const UserDataFetcher = (props: { onNext: () => void, setUser: (name: string) =>
     };
 
     return (
-        <div style={{ display: 'flex' }}>
+        <Stack style={{ display: 'flex' }}>
             <Input
                 type="text"
                 value={key}
+                size='lg'
                 onChange={(e) => setKey(e.target.value)}
                 placeholder="Enter your twitter handle"
+                className={classes.input}
+                icon={<IconAt />}
             />
             {error && <div style={{ color: 'red' }}>{error}</div>}
             {objectData && (
@@ -49,9 +56,15 @@ const UserDataFetcher = (props: { onNext: () => void, setUser: (name: string) =>
                     <pre>{objectData}</pre>
                 </div>
             )}
-            <Button onClick={() => fetchObject()}>Next</Button>
-        </div>
+            <Button onClick={fetchObject} size={largerThanMd ? "lg" : "md"}>Next</Button>
+        </Stack>
     );
 };
 
 export default UserDataFetcher;
+
+const useStyles = createStyles((theme) => ({
+    input: {
+        width: 400,
+    },
+}));
