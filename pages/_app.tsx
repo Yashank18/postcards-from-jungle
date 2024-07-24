@@ -16,8 +16,10 @@ export default function App({ Component, pageProps }: AppProps) {
         withGlobalStyles
         withNormalizeCSS
         theme={{
+          fontFamily: 'Manrope', 
           /** Put your mantine theme override here */
           colorScheme: "light",
+          primaryColor: 'orange'
         }}
       >
         <Component {...pageProps} />

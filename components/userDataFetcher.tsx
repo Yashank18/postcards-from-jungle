@@ -42,8 +42,6 @@ const UserDataFetcher = (props: { onNext: () => void, setUser: (name: string) =>
                 onChange={(e) => setKey(e.target.value)}
                 placeholder="Enter your twitter handle"
             />
-            {/* <button onClick={fetchObject}>Fetch Object</button> */}
-
             {error && <div style={{ color: 'red' }}>{error}</div>}
             {objectData && (
                 <div>

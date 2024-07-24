@@ -1,7 +1,7 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
+import { Manrope, Montserrat } from "next/font/google";
 import { useState, useRef, useEffect } from "react";
-import { Button, clsx, createStyles } from "@mantine/core";
+import { Button, clsx, createStyles, Image } from "@mantine/core";
 import { Result } from "@/components/types";
 import Postcard from "@/components/postcard";
 import CardStack from "@/components/CardStack";
@@ -9,7 +9,9 @@ import html2canvas from "html2canvas";
 import LandingPage from "@/components/Landing";
 import UserDataFetcher from "@/components/userDataFetcher";
 
-const inter = Inter({ subsets: ["latin"] });
+export const font = Manrope({ subsets: ["latin"], weight: "400" });
+export const fontBold = Manrope({ subsets: ["latin"], weight: "800" });
+export const mont = Montserrat({ subsets: ["latin"], weight: "800" });
 
 export default function Home() {
   const { classes } = useStyles();
@@ -20,19 +22,17 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState("landing");
 
   const handleOldUser = () => {
-    const data = localStorage.getItem('postcard-from-jungle');
+    const data = localStorage.getItem("postcard-from-jungle");
     const jsonData = data ? JSON.parse(data) : null;
     if (jsonData) {
       setUserName(jsonData.user);
-      setCurrentPage('results');
+      setCurrentPage("results");
       setResults(jsonData.result);
     }
-  }
+  };
 
   useEffect(() => {
-    if (results)
-      setCurrentPage("results");
-
+    if (results) setCurrentPage("results");
   }, [results]);
 
   const handleResult = (answers: (number | null)[]) => {
@@ -48,16 +48,24 @@ export default function Home() {
       case "landing":
         return <LandingPage onNext={() => setCurrentPage("twitter")} />;
       case "twitter":
-        return <UserDataFetcher onNext={() => setCurrentPage("questions")} setUser={setPostcardName} handleOldUser={() => handleOldUser()} />;
+        return (
+          <UserDataFetcher
+            onNext={() => setCurrentPage("questions")}
+            setUser={setPostcardName}
+            handleOldUser={() => handleOldUser()}
+          />
+        );
       case "questions":
         return <CardStack onFinish={handleResult} />;
       case "results":
-        return <div>
-          <div ref={postcardRef}>
-            <Postcard data={results!} />
+        return (
+          <div>
+            <div ref={postcardRef}>
+              <Postcard data={results!} />
+            </div>
+            <Button onClick={downloadImage}>Download Image</Button>
           </div>
-          <Button onClick={downloadImage}>Download Image</Button>
-        </div>
+        );
     }
   };
 
@@ -65,7 +73,7 @@ export default function Home() {
     try {
       setLoading(true);
       const parsedAnswers = answers
-        .map((answer, index) => `${index + 1}-${answer === 0 ? 'A' : 'B'}`)
+        .map((answer, index) => `${index + 1}-${answer === 0 ? "A" : "B"}`)
         .join(", ");
 
       const response = await fetch("/api/results", {
@@ -79,10 +87,10 @@ export default function Home() {
       setResults(data.content);
       // set this result in local storage as well. Mapped with user name
       const dataToStore = {
-        'user': userName,
-        'result': data.content
-      }
-      localStorage.setItem('postcard-from-jungle', JSON.stringify(dataToStore));
+        user: userName,
+        result: data.content,
+      };
+      localStorage.setItem("postcard-from-jungle", JSON.stringify(dataToStore));
     } catch (error) {
       console.error(error);
     } finally {
@@ -111,9 +119,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={clsx(`${classes.root}`, `${inter.className}`)}>
+      <main
+        className={clsx(
+          `${classes.root}`,
+          `${font.className}`,
+          `${fontBold.className}`,
+        )}
+      >
+        <div className={classes.background} />
+        <Image className={classes.leftbottom} src={'/front.png'} alt={'leaf'}/>
+        <Image className={classes.leftbottom1} src={'/back.png'} alt={'leaf'}/>
+        <Image className={classes.topright} src={'/front.png'} alt={'leaf'}/>
+        <Image className={classes.topright1} src={'/back.png'} alt={'leaf'}/>
         {renderPage()}
-
       </main>
     </>
   );
@@ -122,11 +140,92 @@ export default function Home() {
 const useStyles = createStyles((theme) => ({
   root: {
     margin: "auto",
-    width: "50%",
     height: "100vh",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
+    width: "100vw",
+    overflow: "hidden",
   },
+  background: {
+    position: "absolute",
+    top: -200,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundImage: `url("/bg1.jpg")`,
+    filter: "blur(0.5px) brightness(0.4) contrast(1.2)",
+    zIndex: -1,
+    // Center the background image
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  },
+  leftbottom: {
+    height: "100px",
+    bottom: 40,
+    position: "absolute",
+    [theme.fn.largerThan("md")]: {
+      bottom: 0,
+      left: -700,
+      height: '100vh',
+      transform: 'rotate(90deg)'
+    },
+    zIndex: 1,
+    [theme.fn.largerThan("lg")]: {
+      left: -850,
+    }
+  },
+  leftbottom1: {
+    height: "100px",
+    bottom: 100,
+    position: "absolute",
+    transform: 'rotate(0deg)',
+    opacity: 0.8,
+    filter: "blur(0.5px) brightness(0.8)",
+    [theme.fn.largerThan("md")]: {
+      bottom: 0,
+      left: -600,
+      height: '100vh',
+      transform: 'rotate(90deg)'
+    },
+    [theme.fn.largerThan("lg")]: {
+      left: -750,
+    }
+  },
+  topright: {
+    height: "100px",
+    top: 40,
+    position: "absolute",
+    transform: 'rotate(180deg)',
+    [theme.fn.largerThan("md")]: {
+      top: 0,
+      right: -700,
+      height: '100vh',
+      transform: 'rotate(270deg)'
+    },
+    zIndex: 1,
+    [theme.fn.largerThan("lg")]: {
+      right: -850,
+    }
+  },
+  topright1: {
+    height: "100px",
+    top: 100,
+    position: "absolute",
+    transform: 'rotate(180deg)',
+    opacity: 0.8,
+    filter: "blur(0.5px) brightness(0.8)",
+    [theme.fn.largerThan("md")]: {
+      top: 0,
+      right: -600,
+      height: '100vh',
+      transform: 'rotate(270deg)'
+    },
+    [theme.fn.largerThan("lg")]: {
+      right: -700,
+    }
+  }
 }));
