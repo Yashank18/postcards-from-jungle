@@ -17,7 +17,7 @@ import { Input, Button } from '@mantine/core';
 //     Body: Buffer;
 // }
 
-const S3ObjectFetcher = (props: { onNext: () => void }) => {
+const S3ObjectFetcher = (props: { onNext: () => void, setUser: (name: string) => void }) => {
     const [key, setKey] = useState<string>('');
     const [objectData, setObjectData] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -49,6 +49,11 @@ const S3ObjectFetcher = (props: { onNext: () => void }) => {
         // });
     };
 
+    const handleNextClick = () => {
+        props.setUser(key);
+        props.onNext();
+    };
+
     return (
         <div style={{ display: 'flex' }}>
             <Input
@@ -66,7 +71,7 @@ const S3ObjectFetcher = (props: { onNext: () => void }) => {
                     <pre>{objectData}</pre>
                 </div>
             )}
-            <Button onClick={props.onNext}>Next</Button>
+            <Button onClick={() => handleNextClick()}>Next</Button>
         </div>
     );
 };

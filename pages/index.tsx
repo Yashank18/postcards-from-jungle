@@ -15,6 +15,7 @@ export default function Home() {
   const { classes } = useStyles();
   const [results, setResults] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
+  const [userName, setUserName] = useState("postcard");
   const postcardRef = useRef(null);
   const [currentPage, setCurrentPage] = useState("landing");
 
@@ -28,12 +29,16 @@ export default function Home() {
     getResults(answers);
   };
 
+  const setPostcardName = (name: string) => {
+    setUserName(name);
+  };
+
   const renderPage = () => {
     switch (currentPage) {
       case "landing":
         return <LandingPage onNext={() => setCurrentPage("twitter")} />;
       case "twitter":
-        return <S3ObjectFetcher onNext={() => setCurrentPage("questions")} />;
+        return <S3ObjectFetcher onNext={() => setCurrentPage("questions")} setUser={setPostcardName} />;
       case "questions":
         return <CardStack onFinish={handleResult} />;
       case "results":
@@ -76,7 +81,7 @@ export default function Home() {
       });
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
-      link.download = "postcard.png";
+      link.download = `${userName}.png`;
       link.click();
     }
   };
