@@ -7,7 +7,7 @@ import Postcard from "@/components/postcard";
 import CardStack from "@/components/CardStack";
 import html2canvas from "html2canvas";
 import LandingPage from "@/components/Landing";
-import S3ObjectFetcher from "@/components/S3ObjectFetcher";
+import UserDataFetcher from "@/components/userDataFetcher";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +18,16 @@ export default function Home() {
   const [userName, setUserName] = useState("postcard");
   const postcardRef = useRef(null);
   const [currentPage, setCurrentPage] = useState("landing");
+
+  const handleOldUser = () => {
+    const data = localStorage.getItem('postcard-from-jungle');
+    const jsonData = data ? JSON.parse(data) : null;
+    if (jsonData) {
+      setUserName(jsonData.user);
+      setCurrentPage('results');
+      setResults(jsonData.result);
+    }
+  }
 
   useEffect(() => {
     if (results)
@@ -38,7 +48,7 @@ export default function Home() {
       case "landing":
         return <LandingPage onNext={() => setCurrentPage("twitter")} />;
       case "twitter":
-        return <S3ObjectFetcher onNext={() => setCurrentPage("questions")} setUser={setPostcardName} />;
+        return <UserDataFetcher onNext={() => setCurrentPage("questions")} setUser={setPostcardName} handleOldUser={() => handleOldUser()} />;
       case "questions":
         return <CardStack onFinish={handleResult} />;
       case "results":
@@ -67,6 +77,12 @@ export default function Home() {
       });
       const data = await response.json();
       setResults(data.content);
+      // set this result in local storage as well. Mapped with user name
+      const dataToStore = {
+        'user': userName,
+        'result': data.content
+      }
+      localStorage.setItem('postcard-from-jungle', JSON.stringify(dataToStore));
     } catch (error) {
       console.error(error);
     } finally {
@@ -81,6 +97,7 @@ export default function Home() {
       });
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
+      console.log(userName);
       link.download = `${userName}.png`;
       link.click();
     }
