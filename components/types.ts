@@ -3,4 +3,5 @@ export type Result = {
   traits: string[];
   summary: string;
   quote: string;
+  author: string;
 } 

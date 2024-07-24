@@ -61,7 +61,7 @@ export default function Home() {
         return (
           <div>
             <div ref={postcardRef}>
-              <Postcard data={results!} />
+              <Postcard data={results!} userName={userName}/>
             </div>
             <Button onClick={downloadImage}>Download Image</Button>
           </div>
