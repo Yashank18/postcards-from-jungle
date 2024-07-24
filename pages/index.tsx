@@ -1,13 +1,14 @@
 import Head from "next/head";
 import { Manrope, Montserrat } from "next/font/google";
 import { useState, useRef, useEffect } from "react";
-import { Button, clsx, createStyles, Image } from "@mantine/core";
+import { Button, clsx, createStyles, Image, Stack } from "@mantine/core";
 import { Result } from "@/components/types";
 import Postcard from "@/components/postcard";
 import CardStack from "@/components/CardStack";
 import html2canvas from "html2canvas";
 import LandingPage from "@/components/Landing";
 import UserDataFetcher from "@/components/userDataFetcher";
+import { IconDownload } from "@tabler/icons-react";
 
 export const font = Manrope({ subsets: ["latin"], weight: "400" });
 export const fontBold = Manrope({ subsets: ["latin"], weight: "800" });
@@ -19,7 +20,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("postcard");
   const postcardRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState("twitter");
+  const [currentPage, setCurrentPage] = useState("landing");
 
   const handleOldUser = () => {
     const data = localStorage.getItem("postcard-from-jungle");
@@ -59,12 +60,12 @@ export default function Home() {
         return <CardStack onFinish={handleResult} />;
       case "results":
         return (
-          <div>
+          <Stack align="center" spacing={16}>
             <div ref={postcardRef}>
               <Postcard data={results!} userName={userName}/>
             </div>
-            <Button onClick={downloadImage}>Download Image</Button>
-          </div>
+            <Button onClick={downloadImage} rightIcon={<IconDownload size={14}/>}>Download postcard</Button>
+          </Stack>
         );
     }
   };
@@ -175,7 +176,7 @@ const useStyles = createStyles((theme) => ({
     },
     zIndex: 1,
     [theme.fn.largerThan("lg")]: {
-      left: -850,
+      left: -1000,
     }
   },
   leftbottom1: {
@@ -192,7 +193,7 @@ const useStyles = createStyles((theme) => ({
       transform: 'rotate(90deg)'
     },
     [theme.fn.largerThan("lg")]: {
-      left: -750,
+      left: -900,
     }
   },
   topright: {
@@ -208,7 +209,7 @@ const useStyles = createStyles((theme) => ({
     },
     zIndex: 1,
     [theme.fn.largerThan("lg")]: {
-      right: -850,
+      right: -1000,
     }
   },
   topright1: {
@@ -225,7 +226,7 @@ const useStyles = createStyles((theme) => ({
       transform: 'rotate(270deg)'
     },
     [theme.fn.largerThan("lg")]: {
-      right: -700,
+      right: -900,
     }
   }
 }));
