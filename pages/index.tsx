@@ -96,7 +96,17 @@ export default function Home() {
         user: userName,
         result: data.content,
       };
-      await sql`INSERT INTO postcard (user_name, answers ,result) VALUES (${userName}, (${parsedAnswers}), ${JSON.stringify(data.content)})`;
+      const saveData = await fetch('/api/storeResults', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName,
+          parsedAnswers: answers,
+          content: JSON.stringify(data.content),
+        }),
+      });
       localStorage.setItem("postcard-from-jungle", JSON.stringify(dataToStore));
     } catch (error) {
       console.error(error);
