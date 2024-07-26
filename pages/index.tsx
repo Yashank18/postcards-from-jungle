@@ -96,7 +96,7 @@ export default function Home() {
         user: userName,
         result: data.content,
       };
-      const saveData = await fetch('/api/storeResults', {
+      await fetch('/api/storeResults', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

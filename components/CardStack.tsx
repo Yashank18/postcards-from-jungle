@@ -95,7 +95,7 @@ const CardStack = ({
               style={{
                 position: "absolute",
                 top: '20%',
-                left: '35%',
+                left: '30%',
                 zIndex: 1,
                 display: "flex",
                 justifyContent: "center",
