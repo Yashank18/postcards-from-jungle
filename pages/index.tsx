@@ -117,8 +117,10 @@ export default function Home() {
 
   const downloadImage = async () => {
     if (postcardRef.current) {
+      // check  if screen width < 780 then scale = 2 else scale = 4
+      const scaleValue = window.innerWidth < 780 ? 4 : 2;
       const canvas = await html2canvas(postcardRef.current, {
-        scale: 2,
+        scale: scaleValue,
       });
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");

@@ -78,7 +78,7 @@ const Postcard = (props: Props) => {
         testDiv.style.position = "absolute";
         testDiv.style.visibility = "hidden";
         testDiv.style.width = `${containerWidth}px`;
-        testDiv.style.fontSize = "16px";
+        testDiv.style.fontSize = containerWidth > 180 ? "16px" : " 9px"; //add a check according to screen size
         testDiv.style.fontFamily = notoserif.style.fontFamily;
         testDiv.style.overflow = "hidden";
         testDiv.style.whiteSpace = "nowrap";
@@ -122,8 +122,7 @@ const Postcard = (props: Props) => {
             style={{ position: "absolute" }}
           >
             <Box
-              w={576}
-              h={384}
+              className={classes.boxPrevSide}
               style={{
                 backgroundColor: "#F2E7CE",
                 position: "relative",
@@ -197,8 +196,7 @@ const Postcard = (props: Props) => {
             style={{ position: "absolute" }}
           >
             <Box
-              w={576}
-              h={384}
+                className={classes.boxPrevSide}
               style={{
                 backgroundColor: "#F2E7CE",
                 position: "relative",
@@ -208,21 +206,21 @@ const Postcard = (props: Props) => {
             >
               <Stack spacing={4} style={{ color: "#212121" }}>
                 <Text
-                  className={handwriting.className}
-                  style={{ fontSize: 32, color: animalColors?.secondary }}
+                    className={clsx(handwriting.className, classes.userName)}
+                    style={{ color: animalColors?.secondary }}
                 >
                   Hey @{props.userName},
                 </Text>
                 <Text
-                  className={handwriting.className}
-                  style={{ fontSize: 20, color: animalColors?.secondary }}
+                    className={clsx(handwriting.className, classes.traitsText)}
+                    style={{ color: animalColors?.secondary }}
                 >
                   {props.data.summary + " " + postfix}
                 </Text>
                 <Flex direction={"row-reverse"} w={"100%"} mt={10}>
                   <Text
-                    className={handwriting.className}
-                    style={{ fontSize: 20, color: animalColors?.secondary }}
+                      className={clsx(handwriting.className, classes.traitsText)}
+                      style={{ color: animalColors?.secondary }}
                   >
                     {" "}
                     - from{" "}
@@ -267,12 +265,42 @@ const Postcard = (props: Props) => {
 export default Postcard;
 
 const useStyles = createStyles((theme) => ({
+  boxPrevSide: {
+    height: '384px !important',
+    width: 576,
+
+    // mobile
+    "@media (max-width: 768px)": {
+      height: '30vh !important',
+      width: '90vw',
+    },
+  },
+  userName: {
+    fontSize: 32,
+    // mobile
+    "@media (max-width: 768px)": {
+      fontSize: 22,
+    },
+  },
+  traitsText: {
+    fontSize: 20,
+    // mobile
+    "@media (max-width: 768px)": {
+      fontSize: 14,
+    },
+  },
   flipCardContainer: {
     perspective: "1000px",
     width: 576,
     height: 384,
     boxShadow:
       "0px 0.4px 0.3px rgba(0, 0, 0, 0.035),0px 2px 3.1px rgba(0, 0, 0, 0.061),0px 5.3px 9.1px rgba(0, 0, 0, 0.079),0px 11.4px 19.8px rgba(0, 0, 0, 0.092),0px 22.6px 38.9px rgba(0, 0, 0, 0.102),0px 49px 85px rgba(0, 0, 0, 0.14)",
+
+    // mobile
+    "@media (max-width: 768px)": {
+      width: '90vw',
+      height: '30vh !important',
+    },
   },
   root: {
     display: "flex",
@@ -296,6 +324,12 @@ const useStyles = createStyles((theme) => ({
     fontFamily: fontBold.style.fontFamily,
     letterSpacing: -5,
     lineHeight: 1.2,
+
+    // mobile
+    "@media (max-width: 768px)": {
+      fontSize: 25,
+      letterSpacing: -2,
+    },
   },
   titleHindi: {
     fontSize: 50,
@@ -303,6 +337,10 @@ const useStyles = createStyles((theme) => ({
     fontFamily: fontBold.style.fontFamily,
     letterSpacing: -5,
     lineHeight: 1.2,
+    "@media (max-width: 768px)": {
+      fontSize: 25,
+      letterSpacing: -2,
+    },
   },
 
   lineText: {
@@ -313,9 +351,20 @@ const useStyles = createStyles((theme) => ({
     flexDirection: "column",
     alignItems: "flex-start",
     lineHeight: 1.5,
+
+    // mobile
+    "@media (max-width: 768px)": {
+      fontSize: 10,
+      width: '180px',
+    },
     "& span": {
       whiteSpace: "nowrap",
       fontSize: 16,
+
+      // mobile
+      "@media (max-width: 768px)": {
+        fontSize: 8,
+      },
     },
     "& span:after": {
       content: '" "',
