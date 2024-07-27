@@ -37,6 +37,21 @@ const handwriting = Handwriting({
 
 const postfix = "But hey, this is you; and you are awesome!";
 
+const animalsInHindi = new Map([
+  ['Tiger', 'बाघ'],
+  ['Owl', 'उल्लू'],
+  ['Wolf', 'भेड़िया'],
+  ['Dolphin', 'डॉल्फिन'],
+  ['Deer', 'हिरण'],
+  ['Rabbit', 'खरगोश'],
+  ['Elephant', 'हाथी'],
+  ['Bear', 'भालू'],
+  ['Horse', 'घोड़ा'],
+  ['Eagle', 'चील'],
+  ['Panda', 'पांडा'],
+  ['Sheep', 'भेड़']
+]);
+
 const Postcard = (props: Props) => {
   const animalImage = getAnimalImage(props.data.animal);
   const animalColors = getAnimalColorMap(props.data.animal);
@@ -130,7 +145,7 @@ const Postcard = (props: Props) => {
                     className={classes.title}
                     style={{ color: animalColors?.primary }}
                   >
-                    {props.data.animal}
+                    {props.data.animal} / <span className={classes.titleHindi}>{animalsInHindi.get(props.data.animal)}</span>
                   </Text>
                   {props.data.traits.length > 0 && (
                     <Text
@@ -276,8 +291,15 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "center",
   },
   title: {
-    fontSize: 60,
+    fontSize: 50,
     fontWeight: fontBold.style.fontWeight,
+    fontFamily: fontBold.style.fontFamily,
+    letterSpacing: -5,
+    lineHeight: 1.2,
+  },
+  titleHindi: {
+    fontSize: 50,
+    fontWeight: 400,
     fontFamily: fontBold.style.fontFamily,
     letterSpacing: -5,
     lineHeight: 1.2,
