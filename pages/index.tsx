@@ -66,6 +66,7 @@ export default function Home() {
             </div>
             <Button
               onClick={downloadImage}
+              className={classes.downloadButton}
               rightIcon={<IconDownload size={14} />}
             >
               Download postcard
@@ -177,6 +178,11 @@ export default function Home() {
 }
 
 const useStyles = createStyles((theme) => ({
+  downloadButton: {
+    "@media (max-width: 768px)": {
+      marginTop: 20,
+    },
+  },
   root: {
     margin: "auto",
     height: "100vh",

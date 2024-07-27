@@ -78,7 +78,7 @@ const Postcard = (props: Props) => {
         testDiv.style.position = "absolute";
         testDiv.style.visibility = "hidden";
         testDiv.style.width = `${containerWidth}px`;
-        testDiv.style.fontSize = containerWidth > 180 ? "16px" : " 9px"; //add a check according to screen size
+        testDiv.style.fontSize = containerWidth > 190 ? "16px" : " 9px"; //add a check according to screen size
         testDiv.style.fontFamily = notoserif.style.fontFamily;
         testDiv.style.overflow = "hidden";
         testDiv.style.whiteSpace = "nowrap";
@@ -157,7 +157,7 @@ const Postcard = (props: Props) => {
                     </Text>
                   )}
                 </Flex>
-                <Flex direction={"column"} gap={10}>
+                <Flex direction={"column"} className={classes.flexOnly}>
                   {lines.map((line, index) => (
                     <Text
                       key={index}
@@ -173,7 +173,7 @@ const Postcard = (props: Props) => {
               <Flex
                 direction={"row-reverse"}
                 w={"100%"}
-                style={{ position: "absolute", bottom: 24, right: 24 }}
+                className={classes.flexButton}
               >
                 <Button
                   variant="subtle"
@@ -200,7 +200,7 @@ const Postcard = (props: Props) => {
               style={{
                 backgroundColor: "#F2E7CE",
                 position: "relative",
-                padding: 36,
+                padding: 40,
                 transform: "rotateY(180deg)",
               }}
             >
@@ -243,7 +243,7 @@ const Postcard = (props: Props) => {
               <Flex
                 direction={"row-reverse"}
                 w={"100%"}
-                style={{ position: "absolute", bottom: 24, right: 24 }}
+                  className={classes.flexButton}
               >
                 <Button
                   variant="subtle"
@@ -265,14 +265,32 @@ const Postcard = (props: Props) => {
 export default Postcard;
 
 const useStyles = createStyles((theme) => ({
+  flexButton: {
+    position: "absolute", bottom: 24, right: 24,
+
+    // mobile
+    "@media (max-width: 768px)": {
+      bottom: -27,
+      right: 12,
+    },
+  },
+  flexOnly: {
+    gap: 10,
+
+    // mobile
+    "@media (max-width: 768px)": {
+      gap: 3,
+    },
+  },
   boxPrevSide: {
     height: '384px !important',
     width: 576,
 
     // mobile
     "@media (max-width: 768px)": {
-      height: '30vh !important',
+      height: '32vh !important',
       width: '90vw',
+      padding: '26px !important',
     },
   },
   userName: {
@@ -299,7 +317,7 @@ const useStyles = createStyles((theme) => ({
     // mobile
     "@media (max-width: 768px)": {
       width: '90vw',
-      height: '30vh !important',
+      height: '32vh !important',
     },
   },
   root: {
@@ -311,6 +329,11 @@ const useStyles = createStyles((theme) => ({
     width: 500,
     backfaceVisibility: "hidden",
     transformStyle: "preserve-3d",
+
+    // mobile
+    "@media (max-width: 768px)": {
+      gap: 22,
+    },
     //Soft shadow
   },
   image: {
