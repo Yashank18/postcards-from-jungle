@@ -66,5 +66,9 @@ export default UserDataFetcher;
 const useStyles = createStyles((theme) => ({
     input: {
         width: 400,
+        // change width for mobile screens
+        "@media (max-width: 768px)": {
+            width: 300,
+        },
     },
 }));

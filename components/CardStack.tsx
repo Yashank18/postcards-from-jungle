@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Image, Group, Button, Text, Center, Stack, Flex, Box } from "@mantine/core";
+import { Card, Image, Group, Button, Text, Center, Stack, Flex, Box, createStyles } from "@mantine/core";
 import { motion, AnimatePresence } from "framer-motion";
 
 const questions: string[] = [
@@ -22,21 +22,21 @@ const choices: string[][] = [
 ];
 
 const quotes: string[] = [
-  "The best way to predict the future is to invent it.",
-  "Life is what happens when you're busy making other plans.",
-  "The only limit to our realization of tomorrow is our doubts of today.",
-  "Do not wait to strike till the iron is hot, but make it hot by striking.",
-  "It does not do to dwell on dreams and forget to live.",
-  "The purpose of our lives is to be happy.",
-  "You have within you right now, everything you need to deal with whatever the world can throw at you.",
-  "The only impossible journey is the one you never begin.",
-  "In three words I can sum up everything I've learned about life: it goes on.",
-  "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.",
-  "The greatest glory in living lies not in never falling, but in rising every time we fall.",
-  "The way to get started is to quit talking and begin doing.",
-  "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-  "Life is short, and it is up to you to make it sweet.",
-  "You only live once, but if you do it right, once is enough.",
+  "The jungle is alive. It has a soul and senses.",
+  "In the jungle, the mighty jungle, the lion sleeps tonight.",
+  "The forest makes your heart gentle. You become one with it. No place for greed or anger there.",
+  "In the jungle, life and death are one thread, the same line viewed from different sides.",
+  "The jungle teaches you to adapt and survive.",
+  "To walk in nature is to witness a thousand miracles.",
+  "The wilderness holds answers to more questions than we have yet learned to ask.",
+  "Saving the rainforest is not an option, it’s a necessity.",
+  "The jungle is my home, and it gives me everything I need.",
+  "In the silence of the jungle, we find our true selves.",
+  "The earth has music for those who listen.",
+  "To protect the jungle is to protect life itself.",
+  "Nature does not hurry, yet everything is accomplished.",
+  "The forest is a quiet place if only the best birds sing.",
+  "Every leaf in the jungle is a work of art."
 ];
 
 const CardStack = ({
@@ -51,6 +51,7 @@ const CardStack = ({
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [quoteIndex, setQuoteIndex] = useState<number>(0);
+  const { classes } = useStyles();
 
   useEffect(() => {
     let intervalId: ReturnType<typeof setInterval>;
@@ -92,15 +93,7 @@ const CardStack = ({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -100 }}
               transition={{ duration: 0.5 }}
-              style={{
-                position: "absolute",
-                top: '20%',
-                left: '30%',
-                zIndex: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+              className={classes.motionDiv}
             >
               <Box h='100%' w={'80%'}>
                 <Card
@@ -158,13 +151,8 @@ const CardStack = ({
               justifyContent: "center",
               alignItems: "center",
               fontSize: "18px",
-            }}
-          >
-            <div
-              style={{ color: "red", fontSize: "24px", marginRight: "10px" }}
+              }}
             >
-              Do you know?
-            </div>
             <div style={{ flex: 1 }}>
               <AnimatePresence>
                 <motion.div
@@ -175,7 +163,8 @@ const CardStack = ({
                   transition={{ duration: 1 }}
                   style={{ color: "black" }}
                 >
-                  {quotes[quoteIndex]}
+                    <div style={{ color: 'white' }}>{quotes[quoteIndex]}</div>
+
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -185,5 +174,22 @@ const CardStack = ({
     </Flex>
   );
 };
+const useStyles = createStyles((theme) => ({
+  motionDiv: {
+    position: "absolute",
+    top: '20%',
+    left: '30%',
+    zIndex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+
+    // for mobile screen
+    "@media (max-width: 768px)": {
+      top: '20%',
+      left: '0%',
+    },
+  }
+}));
 
 export default CardStack;
